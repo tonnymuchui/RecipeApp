@@ -1,5 +1,7 @@
 package com.recipe.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -18,6 +20,7 @@ class MealActivity : AppCompatActivity() {
     private lateinit var mealThumb: String
     private lateinit var mealMvvm: MealViewModel
     private lateinit var binding: ActivityMealBinding
+    private lateinit var youtubeLink:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMealBinding.inflate(layoutInflater)
@@ -28,6 +31,12 @@ class MealActivity : AppCompatActivity() {
         loadingCase()
         mealMvvm.getMealDetails(mealId)
         observeMealDetailsVileData()
+        onYoutubeImageClick()
+    }
+
+    private fun onYoutubeImageClick() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
+        startActivity(intent)
     }
 
     private fun observeMealDetailsVileData() {
@@ -38,6 +47,7 @@ class MealActivity : AppCompatActivity() {
             binding.tvCategoryInfo.text = "Category: ${value!!.strCategory}"
             binding.tvAreaInfo.text = "Area ${value!!.strArea}"
             binding.tvInstructions.text = value.strInstructions
+            youtubeLink = value.strYoutube
         }
     }
 

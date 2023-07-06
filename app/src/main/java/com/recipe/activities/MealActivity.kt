@@ -35,8 +35,10 @@ class MealActivity : AppCompatActivity() {
     }
 
     private fun onYoutubeImageClick() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
-        startActivity(intent)
+        binding.imgYoutube.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
+            startActivity(intent)
+        }
     }
 
     private fun observeMealDetailsVileData() {

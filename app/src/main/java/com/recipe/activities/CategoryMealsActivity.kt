@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.recipe.adapter.CategoryMealsAdapter
 import com.recipe.databinding.ActivityCategoryMealsBinding
 import com.recipe.ui.fragments.HomeFragment

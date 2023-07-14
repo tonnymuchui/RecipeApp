@@ -22,6 +22,7 @@ class CategoryMealsActivity : AppCompatActivity() {
         categoryMealsViewModel = ViewModelProviders.of(this)[CategoryMealsViewModel::class.java]
         categoryMealsViewModel.getMealsByCategory(intent.getStringExtra(HomeFragment.CATEGORY_NAME)!!)
         categoryMealsViewModel.observeCategoryMealsLiveData().observe(this, Observer { mealsList ->
+            binding.tvCategoryCount.text = mealsList.size.toString()
             categoryMealsAdapter.setMealsList(mealsList)
         })
 

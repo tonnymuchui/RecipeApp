@@ -25,7 +25,6 @@ class CategoryMealsActivity : AppCompatActivity() {
             binding.tvCategoryCount.text = mealsList.size.toString()
             categoryMealsAdapter.setMealsList(mealsList)
         })
-
     }
 
     private fun prepareRecyclerView() {

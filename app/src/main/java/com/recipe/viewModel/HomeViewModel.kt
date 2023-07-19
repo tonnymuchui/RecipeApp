@@ -11,14 +11,18 @@ import com.recipe.data.MealsByCategoryList
 import com.recipe.data.MealsByCategory
 import com.recipe.data.Meal
 import com.recipe.data.MealList
+import com.recipe.db.MealDatabase
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
 
-class HomeViewModel(): ViewModel() {
+class HomeViewModel(
+    private var mealDatabase: MealDatabase
+): ViewModel() {
     private val randomMealLive = MutableLiveData<Meal>()
     private var popularItemsMealLive = MutableLiveData<List<MealsByCategory>>()
     private var categoryLiveData = MutableLiveData<List<Category>>()
+    private var favoritesMealsLiveData = mealDatabase.mealDao().geAllMeals()
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback,
             retrofit2.Callback<MealList> {
@@ -69,5 +73,8 @@ class HomeViewModel(): ViewModel() {
     }
     fun observeCategoriesLiveData():LiveData<List<Category>>{
         return categoryLiveData
+    }
+    fun observeFavoritesMealsLiveData():LiveData<List<Meal>> {
+        return favoritesMealsLiveData
     }
 }

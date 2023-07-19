@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.recipe.activities.CategoryMealsActivity
+import com.recipe.activities.MainActivity
 import com.recipe.activities.MealActivity
 import com.recipe.adapter.CategoriesAdapter
 import com.recipe.adapter.MostPopularAdapter
@@ -34,7 +35,7 @@ companion object {
 }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homMvvm = androidx.lifecycle.ViewModelProvider(this)[HomeViewModel::class.java]
+        homMvvm = (activity as MainActivity).homeViewModel
         popularItemsAdapter = MostPopularAdapter()
     }
 

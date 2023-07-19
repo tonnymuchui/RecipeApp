@@ -5,21 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.recipe.R
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.recipe.activities.MainActivity
+import com.recipe.adapter.FavoritesMealsAdapter
+import com.recipe.databinding.FragmentFavoritesBinding
+import com.recipe.viewModel.HomeViewModel
 
 class FavoritesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+private lateinit var binding: FragmentFavoritesBinding
+private lateinit var homeViewModel: HomeViewModel
+private lateinit var favoritesMealsAdapter: FavoritesMealsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        homeViewModel = (activity as MainActivity).homeViewModel
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -30,16 +31,23 @@ class FavoritesFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        prepareRecyclerView()
+        observeFavorites()
+    }
 
-    companion object {
+    private fun prepareRecyclerView() {
+        favoritesMealsAdapter = FavoritesMealsAdapter()
+        binding.favRecView.apply {
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+            adapter = favoritesMealsAdapter
+        }
+    }
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoritesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun observeFavorites() {
+        homeViewModel.observeFavoritesMealsLiveData().observe(requireActivity(), Observer {meals ->
+            favoritesMealsAdapter.differ.submitList(meals)
+        })
     }
 }

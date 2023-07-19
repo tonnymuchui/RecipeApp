@@ -13,4 +13,5 @@
     <string name="details_image">details image</string>
     <string name="youtube">youtube</string>
     <string name="instructions">Instructions :</string>
+    <string name="no_favorites">No Favorites...</string>
 </resources>

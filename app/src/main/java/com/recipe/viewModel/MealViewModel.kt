@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MealViewModel(
-    val mealDatabase: MealDatabase
+    private val mealDatabase: MealDatabase
 ): ViewModel() {
     private val mealDetailsLiveData = MutableLiveData<Meal>()
 

@@ -62,6 +62,14 @@ companion object {
         homMvvm.getCategories()
         observeCategoriesLiveData()
         onCategoryClick()
+        onPopularLongClick()
+    }
+
+    private fun onPopularLongClick() {
+        popularItemsAdapter.onLongItemClick = {meal ->
+            val mealBottomSheetFragment = MealBottomSheetFragment.newInstance(meal.idMeal)
+            mealBottomSheetFragment.show(childFragmentManager, "Meal Info")
+        }
     }
 
     private fun onCategoryClick() {

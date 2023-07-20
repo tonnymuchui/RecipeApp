@@ -11,5 +11,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >@color/white</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 </resources>

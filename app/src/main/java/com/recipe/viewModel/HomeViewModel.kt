@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.recipe.api.RetrofitInstance
 import com.recipe.data.Category
 import com.recipe.data.CategoryList
@@ -12,6 +13,7 @@ import com.recipe.data.MealsByCategory
 import com.recipe.data.Meal
 import com.recipe.data.MealList
 import com.recipe.db.MealDatabase
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
@@ -70,6 +72,16 @@ class HomeViewModel(
                 Log.d("Home Fragment", t.message.toString())
             }
         })
+    }
+    fun deleteMeal(meal: Meal) {
+        viewModelScope.launch {
+            mealDatabase.mealDao().delete(meal)
+        }
+    }
+    fun insertMeal(meal: Meal) {
+        viewModelScope.launch {
+            mealDatabase.mealDao().upsert(meal)
+        }
     }
     fun observeCategoriesLiveData():LiveData<List<Category>>{
         return categoryLiveData

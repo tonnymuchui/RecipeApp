@@ -15,7 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btn_nav"
         app:navGraph="@navigation/nav_graph"
-        android:name="androidx.navigation.fragment.NavHostFragment"/>
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btn_nav"

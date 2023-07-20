@@ -128,7 +128,7 @@ companion object {
     private fun observeRandomMeal() {
         homMvvm.observeRandomLiveData().observe(viewLifecycleOwner
         ) { meal ->
-            Glide.with(this@HomeFragment)
+            Glide.with(this)
                 .load(meal!!.strMealThumb)
                 .into(binding.imgRandomMeal)
 

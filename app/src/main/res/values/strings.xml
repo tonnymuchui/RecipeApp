@@ -16,4 +16,5 @@
     <string name="no_favorites">No Favorites...</string>
     <string name="read_more">Read more ...</string>
     <string name="country">Country</string>
+    <string name="type_meal_name">Type meal name ...</string>
 </resources>

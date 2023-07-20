@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.recipe.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment2"
+            app:destination="@id/searchFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.recipe.ui.fragments.FavoritesFragment"
@@ -20,4 +24,9 @@
         android:name="com.recipe.ui.fragments.CategoriesFragment"
         android:label="fragment_categories"
         tools:layout="@layout/fragment_categories" />
+    <fragment
+        android:id="@+id/searchFragment2"
+        android:name="com.recipe.ui.fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>

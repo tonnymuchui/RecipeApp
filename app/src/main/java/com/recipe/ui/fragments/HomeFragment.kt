@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.recipe.R
 import com.recipe.activities.CategoryMealsActivity
 import com.recipe.activities.MainActivity
 import com.recipe.activities.MealActivity
@@ -63,6 +65,13 @@ companion object {
         observeCategoriesLiveData()
         onCategoryClick()
         onPopularLongClick()
+        onSearchIconClick()
+    }
+
+    private fun onSearchIconClick() {
+        binding.imgSearch.setOnClickListener {
+            findNavController().navigate(R.id.searchFragment2)
+        }
     }
 
     private fun onPopularLongClick() {

@@ -17,6 +17,15 @@ interface MealDao {
     @Delete
     suspend fun delete(meal: Meal)
 
-    @Query("SELECT * FROM mealInformation")
-    fun geAllMeals():LiveData<List<Meal>>
+    @Query("SELECT * FROM mealInformation ORDER BY idMeal ASC")
+    fun getAllMeals(): LiveData<List<Meal>>
+
+    @Query("SELECT * FROM mealInformation WHERE idMeal = :id")
+    fun getMealById(id: String): Meal
+
+    @Query("DELETE FROM mealInformation WHERE idMeal =:id")
+    fun deleteMealById(id:String)
+
+    @Delete
+    fun deleteMeal(meal: Meal)
 }

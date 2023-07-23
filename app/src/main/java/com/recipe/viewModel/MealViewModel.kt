@@ -9,7 +9,10 @@ import com.recipe.api.RetrofitInstance
 import com.recipe.data.Meal
 import com.recipe.data.MealList
 import com.recipe.db.MealDatabase
+import com.recipe.db.MealRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +21,7 @@ class MealViewModel(
     private val mealDatabase: MealDatabase
 ): ViewModel() {
     private val mealDetailsLiveData = MutableLiveData<Meal>()
+    private lateinit var repository: MealRepository
 
     fun getMealDetails(id: String) {
         RetrofitInstance.api.getMealDetails(id).enqueue(object : Callback<MealList> {
@@ -36,14 +40,20 @@ class MealViewModel(
     fun observeMealDetailsLiveData(): LiveData<Meal> {
         return mealDetailsLiveData
     }
-    fun insertMeal(meal: Meal) {
-        viewModelScope.launch {
-            mealDatabase.mealDao().upsert(meal)
+    fun geAllMeals() {
+        viewModelScope.launch(Dispatchers.Main) {
         }
     }
-    fun deleteMeal(meal: Meal) {
-        viewModelScope.launch {
-            mealDatabase.mealDao().delete(meal)
+
+    fun insertMeal(meal: Meal) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertFavoriteMeal(meal)
+            withContext(Dispatchers.Main) {
+            }
         }
+    }
+
+    fun deleteMeal(meal:Meal) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteMeal(meal)
     }
 }

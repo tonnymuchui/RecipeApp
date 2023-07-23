@@ -13,7 +13,10 @@ import com.recipe.data.MealsByCategory
 import com.recipe.data.Meal
 import com.recipe.data.MealList
 import com.recipe.db.MealDatabase
+import com.recipe.db.MealRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Query
@@ -25,10 +28,23 @@ class HomeViewModel(
     private val randomMealLive = MutableLiveData<Meal>()
     private var popularItemsMealLive = MutableLiveData<List<MealsByCategory>>()
     private var categoryLiveData = MutableLiveData<List<Category>>()
-    private var favoritesMealsLiveData = mealDatabase.mealDao().geAllMeals()
+    private var favoritesMealsLiveData = mealDatabase.mealDao().getAllMeals()
     private var bottomSheetLiveData = MutableLiveData<Meal>()
     private var searchMealsLiveData = MutableLiveData<List<Meal>>()
+    private lateinit var repository: MealRepository
+    private lateinit var allMeals: LiveData<List<Meal>>
 
+    fun insertMeal(meal: Meal) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertFavoriteMeal(meal)
+            withContext(Dispatchers.Main) {
+            }
+        }
+    }
+
+    fun deleteMeal(meal:Meal) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteMeal(meal)
+    }
     fun getRandomMeal() {
         RetrofitInstance.api.getRandomMeal().enqueue(object : Callback,
             retrofit2.Callback<MealList> {
@@ -91,17 +107,20 @@ class HomeViewModel(
             }
         })
     }
+    fun getMealByIdBottomSheet(id: String) {
+        RetrofitInstance.api.getMealDetails(id).enqueue(object : retrofit2.Callback<MealList>{
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                bottomSheetLiveData.value = response.body()!!.meals?.first()
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                Log.e("HomeViewModel", t.message.toString())
+            }
+
+        })
+    }
     fun observeBottomSheetMeal(): LiveData<Meal> = bottomSheetLiveData
-    fun deleteMeal(meal: Meal) {
-        viewModelScope.launch {
-            mealDatabase.mealDao().delete(meal)
-        }
-    }
-    fun insertMeal(meal: Meal) {
-        viewModelScope.launch {
-            mealDatabase.mealDao().upsert(meal)
-        }
-    }
+
     fun searchMeals(searchQuery: String) = RetrofitInstance.api.searchMeals(searchQuery).enqueue(
         object : retrofit2.Callback<MealList>{
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
@@ -119,4 +138,7 @@ class HomeViewModel(
     fun observeSearchedMealsLiveData() : LiveData<List<Meal>> = searchMealsLiveData
     fun observeCategoriesLiveData():LiveData<List<Category>> = categoryLiveData
     fun observeFavoritesMealsLiveData():LiveData<List<Meal>> = favoritesMealsLiveData
+    fun observeSaveMeal(): LiveData<List<Meal>> {
+        return allMeals
+    }
 }

@@ -1,19 +1,22 @@
 package com.recipe.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.recipe.activities.MainActivity
 import com.recipe.adapter.FavoritesMealsAdapter
+import com.recipe.data.Meal
 import com.recipe.databinding.FragmentFavoritesBinding
+import com.recipe.ui.fragments.HomeFragment.Companion.MEAL_ID
+import com.recipe.ui.fragments.HomeFragment.Companion.MEAL_NAME
+import com.recipe.ui.fragments.HomeFragment.Companion.MEAL_THUMB
 import com.recipe.viewModel.HomeViewModel
 
 class FavoritesFragment : Fragment() {
@@ -22,8 +25,8 @@ private lateinit var homeViewModel: HomeViewModel
 private lateinit var favoritesMealsAdapter: FavoritesMealsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeViewModel = (activity as MainActivity).homeViewModel
         favoritesMealsAdapter = FavoritesMealsAdapter()
+        homeViewModel = (activity as MainActivity).homeViewModel
     }
 
     override fun onCreateView(
@@ -35,8 +38,11 @@ private lateinit var favoritesMealsAdapter: FavoritesMealsAdapter
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareRecyclerView()
+        prepareRecyclerView(view)
         observeFavorites()
+        onFavoriteMealClick()
+        onFavoriteLongMealClick()
+        observeBottomDialog()
 
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -61,8 +67,20 @@ private lateinit var favoritesMealsAdapter: FavoritesMealsAdapter
         }
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.favRecView)
     }
-
-    private fun prepareRecyclerView() {
+    private fun observeBottomDialog() {
+        homeViewModel.observeBottomSheetMeal().observe(viewLifecycleOwner) {
+            val bottomDialog = MealBottomSheetFragment()
+            val b = Bundle()
+            b.putString(HomeFragment.CATEGORY_NAME, it.strCategory)
+            b.putString(HomeFragment.MEAL_NAME, it.strArea?.first().toString())
+            b.putString(HomeFragment.MEAL_NAME, it.strMeal?.first().toString())
+            b.putString(HomeFragment.MEAL_THUMB, it.strMealThumb?.first().toString())
+            b.putString(HomeFragment.MEAL_ID, it.idMeal?.first().toString())
+            bottomDialog.arguments = b
+            bottomDialog.show(childFragmentManager, "Favorite bottom dialog")
+        }
+    }
+    private fun prepareRecyclerView(v:View) {
         favoritesMealsAdapter = FavoritesMealsAdapter()
         binding.favRecView.apply {
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
@@ -71,11 +89,40 @@ private lateinit var favoritesMealsAdapter: FavoritesMealsAdapter
     }
 
     private fun observeFavorites() {
-        homeViewModel.observeFavoritesMealsLiveData().observe(requireActivity(), Observer {meals ->
-            meals.forEach {
-                Log.d("test favorites", it.idMeal)
+        homeViewModel.observeFavoritesMealsLiveData().observe(viewLifecycleOwner
+        ) { value -> favoritesMealsAdapter.setFavoriteMealsList(value) }
+    }
+    private fun observeSaveMeal() {
+        homeViewModel.observeSaveMeal().observe(viewLifecycleOwner
+        ) { t ->
+            favoritesMealsAdapter.setFavoriteMealsList(t!!)
+            if (t.isEmpty())
+                binding.tvFavEmpty.visibility = View.VISIBLE
+            else
+
+                binding.tvFavEmpty.visibility = View.GONE
+        }
+    }
+    private fun onFavoriteMealClick(){
+        favoritesMealsAdapter.setOnFavoriteMealClickListener(object : FavoritesMealsAdapter.OnFavoriteClickListener{
+            override fun onFavoriteClick(meal: Meal) {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra(MEAL_ID,meal.idMeal.toString())
+                intent.putExtra(MEAL_NAME,meal.strMeal)
+                intent.putExtra(MEAL_THUMB,meal.strMealThumb)
+                startActivity(intent)
             }
-            favoritesMealsAdapter.differ.submitList(meals)
+
         })
     }
+
+    private fun onFavoriteLongMealClick() {
+        favoritesMealsAdapter.setOnFavoriteLongClickListener(object : FavoritesMealsAdapter.OnFavoriteLongClickListener{
+            override fun onFavoriteLongCLick(meal: Meal) {
+                homeViewModel.getMealByIdBottomSheet(meal.idMeal.toString())
+            }
+
+        })
+    }
+
 }

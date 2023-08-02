@@ -14,16 +14,16 @@
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:contentDescription="@string/category" />
 
     <LinearLayout
         android:id="@+id/linear_meal_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="@dimen/_100sdp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/img_category"
@@ -45,7 +45,7 @@
             android:text="@string/category"
             android:layout_weight="1"
             android:textColor="@color/g_black"
-            app:drawableLeftCompat="@drawable/category" />
+            app:drawableLeftCompat="@drawable/category"/>
     </LinearLayout>
 
     <TextView
@@ -54,10 +54,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/linear_meal_info"
         app:layout_constraintStart_toEndOf="@id/img_category"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/category"
-        android:textSize="18sp"
+        android:textSize="@dimen/_14ssp"
         android:textColor="@color/g_black"/>
 
     <TextView
@@ -66,11 +66,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_meal_name_in_btm_sheet"
         app:layout_constraintStart_toEndOf="@id/img_category"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textColor="@color/g_black"
         android:text="@string/read_more"
-        android:textSize="18sp"
+        android:textSize="@dimen/_14ssp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

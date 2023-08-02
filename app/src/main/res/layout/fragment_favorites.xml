@@ -10,7 +10,7 @@
         android:id="@+id/tv_fav_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="@dimen/_14sdp"
         android:textColor="@color/accent"
         android:text="@string/no_favorites"
         app:layout_constraintTop_toTopOf="parent"

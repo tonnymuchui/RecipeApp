@@ -19,17 +19,17 @@
 
         <EditText
             android:id="@+id/ed_search"
-            android:layout_width="311dp"
+            android:layout_width="@dimen/_270sdp"
             android:layout_height="40dp"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:background="@drawable/search_box_background"
             android:hint="@string/type_meal_name"
             android:inputType="text"
             android:maxLines="1"
-            android:paddingStart="15dp"
-            android:textSize="16sp"
+            android:paddingStart="@dimen/_15sdp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,8 +37,8 @@
 
         <ImageView
             android:id="@+id/ic_search"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_arrow"
             app:layout_constraintBottom_toBottomOf="@id/ed_search"
             app:layout_constraintStart_toEndOf="@id/ed_search"

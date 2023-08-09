@@ -21,7 +21,7 @@ import javax.security.auth.callback.Callback
 
 class HomeViewModel(
     private var mealDatabase: MealDatabase
-): ViewModel() {
+) : ViewModel() {
     private val randomMealLive = MutableLiveData<Meal>()
     private var popularItemsMealLive = MutableLiveData<List<MealsByCategory>>()
     private var categoryLiveData = MutableLiveData<List<Category>>()
@@ -39,7 +39,7 @@ class HomeViewModel(
 
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 if (response.body() != null) {
-                    val randomMeal : Meal = response.body()!!.meals[0]
+                    val randomMeal: Meal = response.body()!!.meals[0]
                     randomMealLive.value = randomMeal
                 } else return;
             }
@@ -47,38 +47,47 @@ class HomeViewModel(
     }
 
     fun getPopularItems() {
-        RetrofitInstance.api.getPopularItems("Seafood").enqueue(object : retrofit2.Callback<MealsByCategoryList>{
-            override fun onResponse(call: Call<MealsByCategoryList>, response: Response<MealsByCategoryList>) {
-                if (response.body() !=null) {
-                    popularItemsMealLive.value = response.body()!!.meals
+        RetrofitInstance.api.getPopularItems("Seafood")
+            .enqueue(object : retrofit2.Callback<MealsByCategoryList> {
+                override fun onResponse(
+                    call: Call<MealsByCategoryList>,
+                    response: Response<MealsByCategoryList>
+                ) {
+                    if (response.body() != null) {
+                        popularItemsMealLive.value = response.body()!!.meals
+                    }
+                }
+
+                override fun onFailure(call: Call<MealsByCategoryList>, t: Throwable) {
+                    Log.d("Home Fragment", t.message.toString())
+                }
+            })
+    }
+
+    fun observeRandomLiveData(): LiveData<Meal> {
+        return randomMealLive
+    }
+
+    fun observePopularItemsLiveData(): LiveData<List<MealsByCategory>> {
+        return popularItemsMealLive
+    }
+
+    fun getCategories() {
+        RetrofitInstance.api.getCategories().enqueue(object : retrofit2.Callback<CategoryList> {
+            override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
+                if (response.body() != null) {
+                    categoryLiveData.value = response.body()!!.categories
                 }
             }
 
-            override fun onFailure(call: Call<MealsByCategoryList>, t: Throwable) {
-                Log.d("Home Fragment", t.message.toString())
-            }
-        })
-    }
-    fun observeRandomLiveData():LiveData<Meal> {
-        return randomMealLive
-    }
-    fun observePopularItemsLiveData():LiveData<List<MealsByCategory>>{
-        return popularItemsMealLive
-    }
-    fun getCategories() {
-        RetrofitInstance.api.getCategories().enqueue(object : retrofit2.Callback<CategoryList>{
-            override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
-               if (response.body() !=null) {
-                   categoryLiveData.value = response.body()!!.categories
-               }
-            }
             override fun onFailure(call: Call<CategoryList>, t: Throwable) {
                 Log.d("Home Fragment", t.message.toString())
             }
         })
     }
-    fun getMealById(id:String) {
-        RetrofitInstance.api.getMealDetails(id).enqueue(object : retrofit2.Callback<MealList>{
+
+    fun getMealById(id: String) {
+        RetrofitInstance.api.getMealDetails(id).enqueue(object : retrofit2.Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 val meal = response.body()?.meals?.first()
                 meal.let {
@@ -91,19 +100,22 @@ class HomeViewModel(
             }
         })
     }
+
     fun observeBottomSheetMeal(): LiveData<Meal> = bottomSheetLiveData
     fun deleteMeal(meal: Meal) {
         viewModelScope.launch {
             mealDatabase.mealDao().delete(meal)
         }
     }
+
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
             mealDatabase.mealDao().upsert(meal)
         }
     }
+
     fun searchMeals(searchQuery: String) = RetrofitInstance.api.searchMeals(searchQuery).enqueue(
-        object : retrofit2.Callback<MealList>{
+        object : retrofit2.Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 val mealList = response.body()?.meals
                 mealList?.let {
@@ -112,11 +124,12 @@ class HomeViewModel(
             }
 
             override fun onFailure(call: Call<MealList>, t: Throwable) {
-               Log.e("Search error", t.message.toString())
+                Log.e("Search error", t.message.toString())
             }
         }
     )
-    fun observeSearchedMealsLiveData() : LiveData<List<Meal>> = searchMealsLiveData
-    fun observeCategoriesLiveData():LiveData<List<Category>> = categoryLiveData
-    fun observeFavoritesMealsLiveData():LiveData<List<Meal>> = favoritesMealsLiveData
+
+    fun observeSearchedMealsLiveData(): LiveData<List<Meal>> = searchMealsLiveData
+    fun observeCategoriesLiveData(): LiveData<List<Category>> = categoryLiveData
+    fun observeFavoritesMealsLiveData(): LiveData<List<Meal>> = favoritesMealsLiveData
 }

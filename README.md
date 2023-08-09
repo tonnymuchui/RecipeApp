@@ -8,18 +8,18 @@ This is an Engaging Android Mobile Application for Culinary Enthusiasts. Experie
 
 This Application allows users to explore an extensive collection of recipes while offering the convenient functionality to curate a personalized list of their most cherished culinary creations.
 
-- User can view **Comprehensive Recipe Insights**.
-- 
-- User can **Add to favorite a recipe**.
+- **Comprehensive Recipe Insights:** Explore an extensive collection of recipes with detailed insights into ingredients and instructions.
 
-- User can view **Video Tutorials** of recipes, giving users a visual guide to follow along.
+- **Favorites:** Curate your personal collection of favorite recipes for easy access.
 
-- User can **View Offline Access to ensure users can access their saved recipes, even when they're not connected to the internet.**
+- **Video Tutorials:** Access video tutorials for recipes, providing visual guides for each step.
 
-- User can **Search** enabling users to easily find recipes.
-- 
+- **Offline Access:** Enjoy seamless access to your saved recipes, even without an internet connection.
+
+- **Search Functionality:** Effortlessly find recipes using the search feature.
+
 <p align="center">
-<img width="250" src="Spec.md/video.mp4" alt="video" />
+<video width="250" src="Spec.md/video.mp4" alt="video"></video>
 <p>
 
 ## PRE-REQUISITES.

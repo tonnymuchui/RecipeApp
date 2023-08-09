@@ -19,7 +19,7 @@ This Application allows users to explore an extensive collection of recipes whil
 - User can **Search** enabling users to easily find recipes.
 - 
 <p align="center">
-<img width="250" src="https://drive.google.com/file/d/1Jn_ExJfM0eBz9PDz9tMmzSxr31rpUJTw/view?usp=sharing" alt="video" />
+<img width="250" src="Spec.md/video.mp4" alt="video" />
 <p>
 
 ## PRE-REQUISITES.

@@ -4,6 +4,14 @@
 
 This is an Engaging Android Mobile Application for Culinary Enthusiasts. Experience the culinary exploration with our immersive Recipe Android mobile application. Immerse yourself in a world of flavors and culinary creativity as you embark on a journey through this crafted recipe app.
 
+#### Screenshots
+
+<p align="center">
+<img align="left" width="250" src="Spec.md/home.jpg" alt="home" />
+<img align="centre" width="250" src="Spec.md/search.jpg" alt="search" />
+<img align="right" width="250" src="Spec.md/categories.jpg" alt="categories" />
+<p>
+
 ## FEATURES
 
 This Application allows users to explore an extensive collection of recipes while offering the convenient functionality to curate a personalized list of their most cherished culinary creations.
@@ -51,14 +59,6 @@ Android SDK used to provide all the necessary developer tools to build, test, an
 4. [Android Build Tools](https://developer.android.com/studio/releases/build-tools)
 
 Android SDK build tools used to debug, build, run and test an Android application.
-
-#### Screenshots
-
-<p align="center">
-<img align="left" width="250" src="Spec.md/home.jpg" alt="home" />
-<img align="centre" width="250" src="Spec.md/search.jpg" alt="search" />
-<img align="right" width="250" src="Spec.md/categories.jpg" alt="categories" />
-<p>
 
 
 ## TECHNOLOGIES USED:
